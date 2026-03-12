@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const { jmt }= require("json-merge-tool");
 const { getDb } = require("./mongodb.js");
 const { ObjectId } = require("mongodb");
 
@@ -212,7 +211,6 @@ async function requireAuth(request) {
   if (!user) {
     return {
       user: null,
-      jmt: jmt({ error: "Unauthorized" }),
       response: new Response(JSON.stringify({ error: "Unauthorized" }), {
         status: 401,
         headers: { "Content-Type": "application/json" }
