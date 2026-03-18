@@ -18,6 +18,7 @@ clientPromise = global._mongoClientPromise;
 
 async function getDb() {
   if (clientPromise === null) {
+        console.error("MongoDB client not initialized");
     return null;
   }
   const client = await clientPromise;

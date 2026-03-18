@@ -11,9 +11,10 @@ contract EduLedger is ERC721URIStorage {
 
     // Mapping from owner to list of owned token IDs
     mapping(address => uint256[]) private _ownedTokens;
+   mapping(uint256 => uint256) public materialViewCount;   
 
     constructor() ERC721("EduLedger", "EDL") {}
-
+ 
     // Allow anyone to mint their own NFT
     function mint(string memory uri) external {
         uint256 tokenId = _tokenIdCounter.current();
@@ -65,4 +66,12 @@ contract EduLedger is ERC721URIStorage {
 
         return from;
     }
+
+     function incrementViewCount(uint256 materialId) public {
+    materialViewCount[materialId]++;
+}   
+
+function getViewCount(uint256 materialId) public view returns (uint256) {
+    return materialViewCount[materialId];
+}   
 }

@@ -8,11 +8,18 @@ import { useRouter } from "next/navigation";
 import WalletModal from "@/components/WalletModal";
 import { useWallet } from "@/hooks/useWallet";
 import { formatAddress } from "@/utils/formatAddress";
+import { useEffect } from "react";
 
 export default function Navbar() {
+	const [mounted, setMounted] = useState(false);
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const router = useRouter();
+	 useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
 	const {
 		address,
@@ -36,8 +43,7 @@ export default function Navbar() {
 				initial={{ y: -40, opacity: 0 }}
 				animate={{ y: 0, opacity: 1 }}
 				transition={{ duration: 0.6, ease: "easeOut" }}
-				className="relative flex items-center justify-between w-full md:w-[90%] lg:w-[85%] max-w-6xl 
-        bg-white/80 backdrop-blur-lg border border-gray-200 rounded-full py-3 px-6 md:px-10 shadow-sm z-10"
+				className={"relative flex items-center justify-between w-full md:w-[90%] lg:w-[85%] max-w-6xl bg-white/80 backdrop-blur-lg border border-gray-200 rounded-full py-3 px-6 md:px-10 shadow-sm z-10"}
 			>
 				{/* Logo */}
 				<div className="flex items-center gap-3">

@@ -1,6 +1,6 @@
+"use client";
 import { useAccount, useConnect, useDisconnect, useBalance, useChainId, useSwitchChain } from 'wagmi';
 import { useEffect, useState } from 'react';
-
 /**
  * useWallet Hook
  * 
@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
  * @returns {Object} Wallet state and methods
  */
 export function useWallet() {
+  try{
   const { address, isConnected, isConnecting, isReconnecting, connector } = useAccount();
   const { connect, connectors, error: connectError, isPending } = useConnect();
   const { disconnect } = useDisconnect();
@@ -104,7 +105,15 @@ export function useWallet() {
     // Errors
     error: connectError,
   };
-}
+  } catch (error){
+        console.warn("Wallet not initialized");
 
-
-
+    return {
+      address: null,
+      isConnected: false,
+      connect: () => {},
+      disconnect: () => {},
+      connectors: [],
+    };
+  }
+  }

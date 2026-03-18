@@ -14,6 +14,65 @@ function makeNextLikeRequest(req) {
     url: `${req.protocol}://${req.get("host")}${req.originalUrl}`,
   };
 }
+// router.get("/:id/stats", async (req, res) => {
+//   try {
+//     const materialId = req.params.id;
+
+//     const views = await contract.getViewCount(materialId);
+
+//     res.json({
+//       views: Number(views)
+//     });
+
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({
+//       error: "Failed to fetch view stats"
+//     });
+//   }
+// });
+
+router.get("/:id/stats", async (req, res) => {
+  try {
+    const materialId = req.params.id;
+    const db = await getDb();   // 🔹 get database connection
+
+    const stats = await db
+      .collection("material_views")
+      .findOne({ materialId });
+
+    res.json({ views: stats ? stats.views : 0 });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch view stats" });
+  }
+});
+
+router.post("/:id/view", async (req, res) => {
+  try {
+    const materialId = req.params.id;
+
+    // const tx = await contract.incrementViewCount(materialId);
+    // await tx.wait();
+     const db = await getDb();
+
+    await db.collection("material_views").updateOne(
+      { materialId },
+      { $inc: { views: 1 } },
+      { upsert: true }
+    );
+
+    res.json({
+      success: true
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: "Failed to increment view"
+    });
+  }
+});
 
 router.post("/", async (req, res) => {
   try {
