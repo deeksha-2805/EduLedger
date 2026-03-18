@@ -15,23 +15,6 @@ function makeNextLikeRequest(req) {
   };
 }
 
-//Get stats for a material 
-router.get("/:id/stats", async (req, res) => {
-  try {
-    const materialId = req.params.id;
-    const db = await getDb();   // get database connection
-
-    const stats = await db
-      .collection("material_views")
-      .findOne({ materialId });
-
-    res.json({ views: stats ? stats.views : 0 });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to fetch view stats" });
-  }
-});
-
 // Increment view count for a material
 router.post("/:id/view", async (req, res) => {
   try {
@@ -55,6 +38,25 @@ router.post("/:id/view", async (req, res) => {
     });
   }
 });
+
+//Get stats for a material 
+router.get("/:id/stats", async (req, res) => {
+  try {
+    const materialId = req.params.id;
+    const db = await getDb();   // get database connection
+
+    const stats = await db
+      .collection("material_views")
+      .findOne({ materialId });
+
+    res.json({ views: stats ? stats.views : 0 });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch view stats" });
+  }
+});
+
+// { "views": 6 }
 
 router.post("/", async (req, res) => {
   try {
