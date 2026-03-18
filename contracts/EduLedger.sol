@@ -11,6 +11,8 @@ contract EduLedger is ERC721URIStorage {
 
     // Mapping from owner to list of owned token IDs
     mapping(address => uint256[]) private _ownedTokens;
+
+    //new state variable to store views for each material.
    mapping(uint256 => uint256) public materialViewCount;   
 
     constructor() ERC721("EduLedger", "EDL") {}
@@ -67,11 +69,13 @@ contract EduLedger is ERC721URIStorage {
         return from;
     }
 
+    //function to increment the view count for a given material ID.
      function incrementViewCount(uint256 materialId) public {
     materialViewCount[materialId]++;
-}   
+   }   
 
-function getViewCount(uint256 materialId) public view returns (uint256) {
+    //function to retrieve the current view count.
+     function getViewCount(uint256 materialId) public view returns (uint256) {
     return materialViewCount[materialId];
-}   
+    }   
 }
