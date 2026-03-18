@@ -267,7 +267,7 @@ try{
 				onClose={() => setShowBuyModal(false)}
 				price={material.price}
 			/>
-			//display it in the UI for testing purposes
+		{/* display it in the UI for testing purposes */}
 				<div style={{ textAlign: 'center' , padding:"40px"}}>
 				<h1>Material ID: {id}</h1>
 				<p>Views: {views}</p>
